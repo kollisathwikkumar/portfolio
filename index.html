@@ -22,7 +22,7 @@
       --mono:'DM Mono',monospace;
     }
     html{scroll-behavior:smooth;}
-    body{background:var(--navy);color:var(--offwhite);font-family:var(--serif);overflow-x:hidden;cursor:none;}
+    body{background:var(--navy);color:var(--offwhite);font-family:var(--serif);overflow-x:hidden;cursor:default;}
 
     /* ── CURSOR ── */
     .cursor{position:fixed;width:8px;height:8px;background:var(--bright);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .3s,height .3s,background .3s;}
@@ -257,11 +257,12 @@
       .cursor,.cursor-ring{display:none !important;}
 
       /* Nav */
-      nav{padding:1rem 1.5rem;flex-wrap:wrap;gap:.8rem;}
-      .nav-logo{font-size:.55rem;}
+      nav{padding:1rem 1.5rem;flex-wrap:wrap;gap:.8rem;justify-content:center;}
+      .nav-logo{font-size:.55rem;width:100%;text-align:center;}
       .nav-links{gap:1rem;flex-wrap:wrap;justify-content:center;width:100%;order:3;}
+      .nav-links li{display:inline-block;}
       .nav-links a{font-size:.5rem;letter-spacing:.12em;}
-      .nav-cv{font-size:.5rem;padding:.4rem .8rem;}
+      .nav-cv{font-size:.5rem;padding:.4rem .8rem;margin-top:0.5rem;}
 
       /* Hero */
       .hero{height:auto;min-height:100vh;flex-direction:column;align-items:center;justify-content:center;padding:8rem 1.5rem 3rem;text-align:center;}
@@ -369,6 +370,7 @@
       <li><a href="#skills">Skills</a></li>
       <li><a href="#certs">Certificates</a></li>
       <li><a href="#education">Education</a></li>
+      <li><a href="#achievements">Achievements</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
     <a href="https://drive.google.com/file/d/1Nqgqa2yrVP6B0g4mQAgjXpUide1MDlBz/view?usp=sharing" target="_blank" rel="noopener" class="nav-cv">
@@ -388,7 +390,7 @@
       </div>
     </div>
     <div class="hero-content">
-      <div class="hero-tag">Open to Opportunities · 2025</div>
+      <div class="hero-tag">Open to Opportunities · 2026</div>
       <h1 class="hero-name">Kolli<br>Sathwik<br><em>Kumar</em></h1>
       <p class="hero-sub">Software Developer &nbsp;·&nbsp; CSE @ LPU &nbsp;·&nbsp; Phagwara, Punjab</p>
       <div class="hero-cta">
@@ -680,23 +682,20 @@
     </div>
   </section>
 
-  <!-- CONTACT -->
   <section class="contact" id="contact">
     <div class="contact-bg"></div>
     <div class="contact-eyebrow reveal">Available for Opportunities</div>
     <h2 class="contact-title reveal reveal-delay-1">Let's build<br><em>something</em></h2>
-    <br><br>
-    <a href="mailto:sathwikkumar271@gmail.com" class="contact-email reveal reveal-delay-2">
+    <a href="mailto:sathwikkumar271@gmail.com" class="contact-email reveal reveal-delay-2" style="margin-top: 2rem;">
       <span>sathwikkumar271@gmail.com</span>
     </a>
-    <br>
-    <a href="https://drive.google.com/file/d/1Nqgqa2yrVP6B0g4mQAgjXpUide1MDlBz/view?usp=sharing" target="_blank" rel="noopener" class="cv-download-btn reveal reveal-delay-3">
+    <div style="width: 100%;"></div>
+    <a href="https://drive.google.com/file/d/1Nqgqa2yrVP6B0g4mQAgjXpUide1MDlBz/view?usp=sharing" target="_blank" rel="noopener" class="cv-download-btn reveal reveal-delay-3" style="margin-top: 1rem;">
       <span class="cv-dl-icon">↗</span>
       <span>View CV</span>
       <span class="cv-dl-pulse"></span>
     </a>
-    <br>
-    <div class="social-links reveal reveal-delay-3">
+    <div class="social-links reveal reveal-delay-3" style="margin-top: 2.5rem;">
       <a href="https://www.linkedin.com/in/kolli-sathwik-kumar/" target="_blank">LinkedIn</a>
       <a href="https://github.com/kollisathwikkumar" target="_blank">GitHub</a>
       <a href="https://github.com/kollisathwikkumar/fitness-planner-application" target="_blank">Project 1</a>
@@ -709,7 +708,7 @@
   <div class="glow-line"></div>
 
   <footer>
-    <span>© 2025 Kolli Sathwik Kumar</span>
+    <span>© 2026 Kolli Sathwik Kumar</span>
     <span>CSE @ LPU · Phagwara</span>
     <span>Open to Work</span>
   </footer>
@@ -994,7 +993,11 @@
   const watermark=document.querySelector('.hero-watermark');
   window.addEventListener('scroll',()=>{
     const s=window.scrollY;
-    if(heroContent) heroContent.style.transform=`translateY(${s*.22}px)`;
+    if(heroContent) {
+      if(!heroContent.classList.contains('reveal') || heroContent.classList.contains('visible')) {
+        heroContent.style.transform=`translateY(calc(0px + ${s*.22}px))`;
+      }
+    }
     if(watermark)   watermark.style.transform=`translateY(calc(-50% + ${s*.12}px))`;
   });
 
@@ -1032,25 +1035,6 @@
     });
   },{threshold:.4});
   sections.forEach(s=>io.observe(s));
-
-  // ── FORCE CV DOWNLOAD ──────────────────────────────────────────────────
-  function forceDownload(url,filename){
-    fetch(url).then(r=>r.blob()).then(blob=>{
-      const a=document.createElement('a');
-      a.href=URL.createObjectURL(blob);
-      a.download=filename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-    });
-  }
-  document.querySelectorAll('a[download]').forEach(link=>{
-    link.addEventListener('click',function(e){
-      e.preventDefault();
-      forceDownload(this.href,this.getAttribute('download'));
-    });
-  });
   </script>
 </body>
 </html>
